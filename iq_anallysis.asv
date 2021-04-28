@@ -1,0 +1,41 @@
+clear all; clc; close all;
+
+fileID = fopen('i_out.txt', 'r');
+data_cell = textscan(fileID, '%d');
+data_i = cell2mat(data_cell);
+data_i = data_i(2:end);
+fclose(fileID);
+
+fileID = fopen('q_out.txt', 'r');
+data_cell = textscan(fileID, '%d');
+data_q = cell2mat(data_cell);
+data_q = data_q(2:end);
+fclose(fileID);
+
+j = 1;
+for k = 1:4:length(data_i) - 4
+    i_out(j) = data_i(k);
+    q_out(j) = data_q(k);
+    j = j+1;
+end
+
+
+var = 0
+
+for k = 1:j-1
+   var = var + (double(i_out(k)) + 1i * double(q_out(k))) * (double(i_out(k)) - 1i * double(q_out(k)));
+end
+var
+
+plot(i_out,'r.-')
+hold on
+plot(q_out, 'b.-')
+grid on
+
+
+
+i_out = double(i_out)
+
+
+
+
